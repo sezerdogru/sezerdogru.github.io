@@ -24,7 +24,7 @@ export default function Home() {
       <h2 className='text-black mb-4 font-bold'>Best projects💲💎⬇️</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map(item => (
-          <Link key={item.id} href={`/projects/${item.id}`} passHref>
+          <Link key={item.id} href={`/#`} passHref>
             <div className="bg-white shadow-lg rounded-lg p-6 cursor-pointer hover:bg-gray-50 transition flex items-center justify-between">
               <div className="flex items-center">
                 <span className="text-2xl text-gray-600 mr-3">{item.description}</span>
