@@ -55,10 +55,10 @@ function App(props: PropsWithChildren) {
 
 function RootInner({ children }: PropsWithChildren) {
   // Mock Telegram environment in development mode if needed.
-  if (process.env.NODE_ENV === "development") {
+   
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useTelegramMock();
-  }
+ 
 
   const debug = useLaunchParams().startParam === "debug";
   const manifestUrl = useMemo(() => {
