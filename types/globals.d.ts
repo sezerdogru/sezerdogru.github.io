@@ -1,16 +1,16 @@
 interface TelegramWebApp {
-    expand(): void; 
+  expand(): void;
+  initData: string;
+}
+
+interface Telegram {
+  WebApp: TelegramWebApp;
+}
+
+declare global {
+  interface Window {
+    Telegram?: Telegram;
   }
-  
-  interface Telegram {
-    WebApp: TelegramWebApp;
-  }
-  
-  declare global {
-    interface Window {
-      Telegram?: Telegram;
-    }
-  }
-  
-  export {};
-  
+}
+
+export {};

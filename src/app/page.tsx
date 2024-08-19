@@ -1,9 +1,11 @@
-"use client"
+"use client";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Script from "next/script";
 
 export default function Home() {
+  const [user, setUser] = useState("");
+
   const items = [
     { id: 1, name: "Blum", description: "🤑" },
     { id: 2, name: "DOGS", description: "🐶 🐶" },
@@ -28,7 +30,9 @@ export default function Home() {
       window.Telegram.WebApp
     ) {
       // Ensure the WebApp is ready
-      window.Telegram.WebApp.expand(); // Call the function to expand the WebApp
+      window.Telegram.WebApp.expand();
+      const user = window.Telegram.WebApp.initData;
+      setUser(user);
     }
   }, []);
 
@@ -39,15 +43,9 @@ export default function Home() {
         strategy="beforeInteractive"
         onLoad={() => {
           console.log("Telegram Web App SDK loaded");
-          if (
-            typeof window !== "undefined" &&
-            window.Telegram &&
-            window.Telegram.WebApp
-          ) {
-            window.Telegram.WebApp.expand();  
-          }
         }}
       />
+      <span>{user}</span>
       <div className="min-h-screen bg-gray-100 p-8">
         <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
           Our List - Remember to Play Every Day
