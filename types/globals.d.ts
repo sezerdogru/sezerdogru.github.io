@@ -1,6 +1,6 @@
 interface TelegramWebApp {
   expand(): void;
-  initData: string;
+  initDataUnsafe: object;
 }
 
 interface Telegram {

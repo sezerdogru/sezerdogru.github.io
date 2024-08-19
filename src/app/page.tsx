@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Script from "next/script";
 
 export default function Home() {
-  const [user, setUser] = useState("");
+  const [webApp, setWebApp]: any = useState();
 
   const items = [
     { id: 1, name: "Blum", description: "🤑" },
@@ -31,8 +31,9 @@ export default function Home() {
     ) {
       // Ensure the WebApp is ready
       window.Telegram.WebApp.expand();
-      const user = window.Telegram.WebApp.initData;
-      setUser(user);
+      const webApp = window.Telegram.WebApp;
+      console.log(window.Telegram);
+      setWebApp(webApp);
     }
   }, []);
 
@@ -45,8 +46,13 @@ export default function Home() {
           console.log("Telegram Web App SDK loaded");
         }}
       />
-      <span>{user}</span>
       <div className="min-h-screen bg-gray-100 p-8">
+        <div className="flex items-center mb-10">
+          <img src="https://web.telegram.org/z/icon-192x192.png" className="mr-2 rounded-full h-8 w-8 bg-gray-500" />
+          <span className="text-black">{webApp?.initDataUnsafe?.user?.username}</span>
+        </div>
+        <span className="text-black">{webApp?.platform}</span>
+        <span className="text-black">{webApp?.BiometricManager?.deviceId}</span>
         <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
           Our List - Remember to Play Every Day
         </h1>
