@@ -37,6 +37,10 @@ function App(props: PropsWithChildren) {
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
 
+  useEffect(() => {
+    viewport?.expand();
+  }, [viewport]);
+
   if (!["android", "ios"].includes(lp.platform)) return <ErrorPage />;
 
   return (

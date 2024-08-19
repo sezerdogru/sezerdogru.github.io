@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { useEffect } from "react";
 import qrImg from "../../public/assets/qr.png";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
 
