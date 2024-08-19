@@ -4,7 +4,7 @@ import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 export function ErrorPage() {
   const lp = useLaunchParams();
-  const isTelegramApp = typeof window !== "undefined" && window.Telegram;
+  const isTelegramApp = typeof window !== "undefined" && (window as any).Telegram;
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-black">
