@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { type PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import { type PropsWithChildren, useEffect, useMemo, useState } from "react";
 import {
   SDKProvider,
   useLaunchParams,
@@ -10,16 +10,14 @@ import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
-} from '@telegram-apps/sdk-react';
-import { TonConnectUIProvider } from '@tonconnect/ui-react';
-import { AppRoot } from '@telegram-apps/telegram-ui';
+} from "@telegram-apps/sdk-react";
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import { AppRoot } from "@telegram-apps/telegram-ui";
 
-import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { ErrorPage } from '@/components/ErrorPage';
-import { useTelegramMock } from '@/hooks/useTelegramMock';
-import { useDidMount } from '@/hooks/useDidMount';
-
-import './styles.css';
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ErrorPage } from "@/components/ErrorPage";
+import { useTelegramMock } from "@/hooks/useTelegramMock";
+import { useDidMount } from "@/hooks/useDidMount";
 
 function App(props: PropsWithChildren) {
   const lp = useLaunchParams();
@@ -41,8 +39,8 @@ function App(props: PropsWithChildren) {
 
   return (
     <AppRoot
-      appearance={miniApp.isDark ? 'dark' : 'light'}
-      platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
+      appearance={miniApp.isDark ? "dark" : "light"}
+      platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
     >
       {props.children}
     </AppRoot>
@@ -51,29 +49,27 @@ function App(props: PropsWithChildren) {
 
 function RootInner({ children }: PropsWithChildren) {
   // Mock Telegram environment in development mode if needed.
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === "development") {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useTelegramMock();
   }
 
-  const debug = useLaunchParams().startParam === 'debug';
+  const debug = useLaunchParams().startParam === "debug";
   const manifestUrl = useMemo(() => {
-    return new URL('tonconnect-manifest.json', window.location.href).toString();
+    return new URL("tonconnect-manifest.json", window.location.href).toString();
   }, []);
 
   // Enable debug mode to see all the methods sent and events received.
   useEffect(() => {
     if (debug) {
-      import('eruda').then((lib) => lib.default.init());
+      import("eruda").then((lib) => lib.default.init());
     }
   }, [debug]);
 
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
       <SDKProvider acceptCustomStyles debug={debug}>
-        <App>
-          {children}
-        </App>
+        <App>{children}</App>
       </SDKProvider>
     </TonConnectUIProvider>
   );
@@ -86,7 +82,12 @@ export function Root(props: PropsWithChildren) {
 
   return didMount ? (
     <ErrorBoundary fallback={ErrorPage}>
-      <RootInner {...props}/>
+      <RootInner {...props} />
     </ErrorBoundary>
-  ) : <div className="root__loading">Loading</div>;
+  ) : (
+    <div className="flex flex-col justify-center items-center bg-white h-screen">
+      <p className="text-black text-6xl mb-4">XList</p>
+      <p className="root__loading text-black">Loading</p>
+    </div>
+  );
 }
