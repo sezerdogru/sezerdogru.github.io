@@ -12,30 +12,50 @@ import pixelImg from "../../public/assets/pixel.jpg";
 import Image from "next/image";
 
 const items = [
-  { id: 1, name: "Blum", img: "" },
-  { id: 2, name: "DOGS", img: "" },
-  { id: 3, name: "Notcoin", img: "" },
+  {
+    id: 1,
+    name: "Blum",
+    img: null,
+    url: "https://t.me/BlumCryptoBot/app?startapp=ref_0y0yjy5hLN",
+  },
+  {
+    id: 2,
+    name: "DOGS",
+    img: null,
+    url: "https://t.me/dogshouse_bot/join?startapp=bkvmadi2SOeJ71pYim1UBg",
+  },
+  { id: 3, name: "Notcoin", img: null, url: "" },
   {
     id: 4,
     name: "Tapswap",
     img: tapImg,
     url: "https://t.me/tapswap_mirror_1_bot?start=r_1034241175",
   },
-  { id: 5, name: "Memefi", img: "" },
+  { id: 5, name: "Memefi", img: null, url: "" },
   {
     id: 6,
     name: "Pixeltap",
     img: pixelImg,
     url: "https://t.me/pixelversexyzbot?start=1034241175",
   },
-  { id: 7, name: "Lost Dogs", img: "" },
-  { id: 8, name: "Mid projects", img: "" },
-  { id: 9, name: "Muskempire", img: "" },
-  { id: 10, name: "Timefarm", img: "" },
-  { id: 11, name: "Hamster kombat", img: "" },
-  { id: 12, name: "Major", img: "" },
-  { id: 13, name: "Catizen", img: "" },
-  { id: 14, name: "Banana", img: "" },
+  { id: 7, name: "Lost Dogs", img: null, url: "" },
+  { id: 8, name: "Mid projects", img: null, url: "" },
+  { id: 9, name: "Muskempire", img: null, url: "" },
+  { id: 10, name: "Timefarm", img: null, url: "" },
+  {
+    id: 11,
+    name: "Hamster kombat",
+    img: null,
+    url: "https://t.me/haMster_kombat_bot/start?startapp=kentId1034241175",
+  },
+  { id: 12, name: "Major", img: null, url: "" },
+  {
+    id: 13,
+    name: "Catizen",
+    img: null,
+    url: "https://t.me/catizenbot/gameapp?startapp=r_752_7521331",
+  },
+  { id: 14, name: "Banana", img: null, url: "" },
   {
     id: 15,
     name: "Arte Farm",
@@ -47,6 +67,24 @@ const items = [
     name: "YesCoin",
     img: yesImg,
     url: "https://t.me/realyescoinbot/something?startapp=r_1034241175 ",
+  },
+  {
+    id: 17,
+    url: "http://t.me/catsgang_bot/join?startapp=axEnI3YjOC2Z7BZCa44DN",
+    name: "Cats",
+    img: null,
+  },
+  {
+    id: 18,
+    url: "https://t.me/duckscoop_bot/app?startapp=ocT5N3VpfC",
+    name: "Ducks",
+    img: null,
+  },
+  {
+    id: 19,
+    url: "http://t.me/token1win_bot/start?startapp=refId1034241175",
+    name: "1win",
+    img: null,
   },
 ];
 
@@ -92,9 +130,7 @@ export default function InitDataPage() {
               <div className="flex items-center">
                 <Image
                   src={
-                    item?.img !== ""
-                      ? item?.img
-                      : "https://web.telegram.org/z/icon-192x192.png"
+                    item?.img ?? "https://web.telegram.org/z/icon-192x192.png"
                   }
                   alt=""
                   width={50}
