@@ -37,6 +37,8 @@ function App(props: PropsWithChildren) {
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
 
+  if (!["android", "ios"].includes(lp.platform)) return <ErrorPage />;
+
   return (
     <AppRoot
       appearance={miniApp.isDark ? "dark" : "light"}
