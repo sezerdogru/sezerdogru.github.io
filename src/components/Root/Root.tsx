@@ -40,7 +40,7 @@ function App(props: PropsWithChildren) {
   useEffect(() => {
     viewport?.expand();
   }, [viewport]);
-
+ 
   if (!["android", "ios"].includes(lp.platform)) return <ErrorPage />;
 
   return (
