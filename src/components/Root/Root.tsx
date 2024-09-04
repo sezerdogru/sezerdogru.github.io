@@ -41,7 +41,7 @@ function App(props: PropsWithChildren) {
     viewport?.expand();
   }, [viewport]);
  
-  //if (!["android", "ios"].includes(lp.platform)) return <ErrorPage />;
+  if (!["android", "ios"].includes(lp.platform)) return <ErrorPage />;
 
   return (
     <AppRoot

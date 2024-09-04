@@ -10,35 +10,36 @@ import {
 import { Avatar } from "@telegram-apps/telegram-ui";
 import { items } from "@/data/items";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function InitDataPage() {
   const initData = useInitData();
   const cloudStorage = initCloudStorage();
-  const [storageData, setStorageData] = useState("");
+  const router = useRouter();
+
+  const [storageData, setStorageData] = useState<number[]>([]);
+
   const userRows = useMemo<User | undefined>(() => {
     return initData && initData.user ? initData.user : undefined;
   }, [initData]);
 
-  const setStorage = (id: number) => {
-     
-    cloudStorage
-      .set("my-key", "my-value")
-      .then(() => console.log("Item saved"));
-
-    cloudStorage.get("my-key").then((value) => {
-      console.log(value);
-      // Output: 'my-value'
-    });
-
-    cloudStorage.get("non-existent").then((value) => {
-      console.log(value);
-      // Output: ''
-    });
+  const setStorage = (id: number, url: string) => {
+    const data = localStorage.getItem("ids");
+    let newIds;
+    if (data) newIds = JSON.parse(data);
+    else newIds = [];
+    newIds.push(id);
+    localStorage.setItem("ids", JSON.stringify(newIds));
+    setStorageData(newIds);
+    router.push(url, { scroll: false });
   };
 
   useEffect(() => {
-    const data = localStorage.getItem("d");
-    if (data) setStorageData(data);
+    const data = localStorage.getItem("ids");
+    if (data) {
+      const ids = JSON.parse(data);
+      setStorageData(ids);
+    }
   }, []);
 
   return (
@@ -68,47 +69,54 @@ export default function InitDataPage() {
       <h1 className="text-4xl font-bold mb-8 text-center text-white">
         Our List - Remember to Play Every Day
       </h1>
-      <span className="text-white">{storageData}</span>
       <h2 className="text-white mb-4 font-bold">Best projects💲💎⬇️</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map((item) => (
-          <div key={item.id} onClick={() => setStorage(item.id)}>
-            <div className="bg-purple-500 shadow-lg rounded-lg p-6 cursor-pointer hover:bg-white transition">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Image
-                    src={
-                      item?.img ?? "https://web.telegram.org/z/icon-192x192.png"
-                    }
-                    alt=""
-                    width={50}
-                    height={50}
-                    className="mr-2"
-                  />
-                  <span className="text-xl font-semibold text-gray-900">
-                    {item.name}
-                  </span>
-                </div>
-                {false && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6 text-yellow-300"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m4.5 12.75 6 6 9-13.5"
+        {items.map((item) => {
+          const isInclude = storageData.includes(item.id);
+          return (
+            <div key={item.id} onClick={() => setStorage(item.id, item.url)}>
+              <div
+                className={`${
+                  isInclude ? "bg-white" : "bg-purple-500"
+                } shadow-lg rounded-lg p-6 cursor-pointer hover:bg-white transition`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <Image
+                      src={
+                        item?.img ??
+                        "https://web.telegram.org/z/icon-192x192.png"
+                      }
+                      alt=""
+                      width={47}
+                      height={47}
+                      className="mr-2 rounded-full"
                     />
-                  </svg>
-                )}
+                    <span className="text-xl font-semibold text-gray-900">
+                      {item.name}
+                    </span>
+                  </div>
+                  {isInclude && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6 text-orange-500 font-bold w-9 h-9"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m4.5 12.75 6 6 9-13.5"
+                      />
+                    </svg>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
