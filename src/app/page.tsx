@@ -1,6 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  MouseEvent,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import Link from "next/link";
 import {
   useInitData,
@@ -11,13 +18,16 @@ import { Avatar } from "@telegram-apps/telegram-ui";
 import { items } from "@/data/items";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { isDayPassed } from "@/utils";
+import Item from "@/components/Item";
 
 export default function InitDataPage() {
   const initData = useInitData();
   const cloudStorage = initCloudStorage();
   const router = useRouter();
 
-  const [storageData, setStorageData] = useState<number[]>([]);
+  const [storageData, setStorageData] = useState<any[]>([]);
+  const [favs, setFavs] = useState<number[]>([]);
 
   const userRows = useMemo<User | undefined>(() => {
     return initData && initData.user ? initData.user : undefined;
@@ -25,20 +35,60 @@ export default function InitDataPage() {
 
   const setStorage = (id: number, url: string) => {
     const data = localStorage.getItem("ids");
-    let newIds;
+    let newIds = [];
+
     if (data) newIds = JSON.parse(data);
-    else newIds = [];
-    newIds.push(id);
+
+    newIds.push({ date: new Date(), id });
     localStorage.setItem("ids", JSON.stringify(newIds));
     setStorageData(newIds);
     router.push(url, { scroll: false });
   };
 
+  const addToFav = (event: any, id: number): void => {
+    event.stopPropagation();
+    setFavs((prevFavs) => {
+      if (prevFavs.includes(id)) return prevFavs.filter((fav) => fav !== id);
+      else return [...prevFavs, id];
+    });
+    console.log(favs);
+  };
+
+  const data = useMemo(() => {
+    const favsArr: any[] = [];
+    const noFavs: any[] = [];
+    items.forEach((i: any) => {
+      if (favs.includes(i.id)) favsArr.push(i);
+      else noFavs.push(i);
+    });
+    return { favsArr, noFavs };
+  }, [favs, items]);
+
+  useEffect(() => {
+    if (favs.length > 0) localStorage.setItem("favs", JSON.stringify(favs));
+  }, [favs]);
+
   useEffect(() => {
     const data = localStorage.getItem("ids");
     if (data) {
       const ids = JSON.parse(data);
-      setStorageData(ids);
+      const currentDate = new Date();
+
+      const filteredIds = ids.filter((item: any) => {
+        const itemDate = new Date(item.date);
+        return !isDayPassed(itemDate, currentDate);
+      });
+
+      localStorage.setItem("ids", JSON.stringify(filteredIds));
+      setStorageData(filteredIds);
+    }
+  }, []);
+
+  useEffect(() => {
+    const data = localStorage.getItem("favs");
+    if (data) {
+      const ids = JSON.parse(data);
+      setFavs(ids);
     }
   }, []);
 
@@ -71,52 +121,13 @@ export default function InitDataPage() {
       </h1>
       <h2 className="text-white mb-4 font-bold">Best projects💲💎⬇️</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map((item) => {
-          const isInclude = storageData.includes(item.id);
-          return (
-            <div key={item.id} onClick={() => setStorage(item.id, item.url)}>
-              <div
-                className={`${
-                  isInclude ? "bg-white" : "bg-purple-500"
-                } shadow-lg rounded-lg p-6 cursor-pointer hover:bg-white transition`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <Image
-                      src={
-                        item?.img ??
-                        "https://web.telegram.org/z/icon-192x192.png"
-                      }
-                      alt=""
-                      width={47}
-                      height={47}
-                      className="mr-2 rounded-full"
-                    />
-                    <span className="text-xl font-semibold text-gray-900">
-                      {item.name}
-                    </span>
-                  </div>
-                  {isInclude && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-6 text-orange-500 font-bold w-9 h-9"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="m4.5 12.75 6 6 9-13.5"
-                      />
-                    </svg>
-                  )}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        {data.favsArr.map((i: any) => (
+          <Item item={i} isFav={true} addToFav={addToFav} />
+        ))}
+
+        {data.noFavs.map((item) => (
+          <Item item={item} addToFav={addToFav} />
+        ))}
       </div>
     </div>
   );

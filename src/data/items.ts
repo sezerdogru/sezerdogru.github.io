@@ -103,7 +103,7 @@ import yescoin from "../../public/assets/yescoin.jpeg";
 import zavod from "../../public/assets/zavod.jpeg";
 import zencoin from "../../public/assets/zencoin.jpeg";
 
-import Image from "next/image";
+ 
 
 const items = [
   {
