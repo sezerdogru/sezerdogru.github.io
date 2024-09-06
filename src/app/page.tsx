@@ -122,11 +122,11 @@ export default function InitDataPage() {
       <h2 className="text-white mb-4 font-bold">Best projects💲💎⬇️</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {data.favsArr.map((i: any) => (
-          <Item item={i} isFav={true} addToFav={addToFav} />
+          <Item item={i} isFav={true} addToFav={addToFav} key={i.id} />
         ))}
 
         {data.noFavs.map((item) => (
-          <Item item={item} addToFav={addToFav} />
+          <Item item={item} addToFav={addToFav} key={item.id} />
         ))}
       </div>
     </div>
