@@ -1,3 +1,5 @@
+import React from "react";
+
 interface Project {
   title: string;
   role: string;
@@ -76,39 +78,53 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#090a0f] text-slate-400 font-sans selection:bg-sky-500/20 selection:text-sky-300 antialiased">
       <div className="max-w-4xl mx-auto px-5 py-16 sm:py-20">
-        {/* Header / Hero */}
+        {/* Header / Hero with Profile Picture */}
         <header className="mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono font-medium mb-8">
             <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]"></span>
             Available for senior engineering roles & projects
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-100 tracking-tight leading-tight mb-5">
-            Sezer Doğru
-            <br />
-            <span className="bg-gradient-to-r from-white via-slate-200 to-sky-400 bg-clip-text text-transparent">
-              Full-Stack & Systems Engineer
-            </span>
-          </h1>
+          <div className="flex flex-col-reverse md:flex-row md:items-center justify-between gap-8 mb-6">
+            <div className="flex-1">
+              <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-100 tracking-tight leading-tight mb-4">
+                Sezer Doğru
+                <br />
+                <span className="bg-gradient-to-r from-white via-slate-200 to-sky-400 bg-clip-text text-transparent">
+                  Full-Stack & Systems Engineer
+                </span>
+              </h1>
 
-          <p className="text-lg text-slate-400 leading-relaxed max-w-2xl mb-8">
-            I engineer modern web platforms and applied AI products end-to-end.
-            Specializing in{" "}
-            <strong className="text-slate-200 font-semibold">
-              high-performance client apps
-            </strong>{" "}
-            (React, Next.js, TypeScript),{" "}
-            <strong className="text-slate-200 font-semibold">
-              scalable cloud systems
-            </strong>{" "}
-            (Node.js, PHP, AWS), and{" "}
-            <strong className="text-slate-200 font-semibold">
-              passwordless authentication
-            </strong>
-            .
-          </p>
+              <p className="text-lg text-slate-400 leading-relaxed max-w-xl">
+                I engineer modern web platforms and applied AI products
+                end-to-end. Specializing in{" "}
+                <strong className="text-slate-200 font-semibold">
+                  high-performance client apps
+                </strong>{" "}
+                (React, Next.js, TypeScript),{" "}
+                <strong className="text-slate-200 font-semibold">
+                  scalable cloud systems
+                </strong>{" "}
+                (Node.js, PHP, AWS), and{" "}
+                <strong className="text-slate-200 font-semibold">
+                  passwordless authentication
+                </strong>
+                .
+              </p>
+            </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+            {/* Profile Image with subtle ring glow */}
+            <div className="relative shrink-0 w-28 h-28 sm:w-36 sm:h-36">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-sky-500/30 to-emerald-500/20 blur-md"></div>
+              <img
+                src="https://github.com/sezerdogru.png"
+                alt="Sezer Doğru"
+                className="relative w-full h-full object-cover rounded-2xl border-2 border-slate-700/80 shadow-xl"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 pt-2">
             <a
               href="mailto:sezer.dogru91@gmail.com"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-100 text-slate-950 font-semibold text-sm hover:bg-white hover:-translate-y-0.5 transition shadow-sm"
